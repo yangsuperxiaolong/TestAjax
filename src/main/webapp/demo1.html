@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>test</title>
+<!-- 引入tablestyle.css样式 -->
+<link rel="stylesheet" type="text/css" href="css/tablestyle.css" />
+<script src="js/jquery-3.3.1.js" type="text/javascript"></script>
+</head>
+<body>
+	<input type="button" id="loadBtn" value="Ajax测试"/>
+ 	<table class="imagetable" id="tr">
+	</table>
+    <script>
+        $("#loadBtn").click(function(){
+        	//发送ajax请求
+        	$.ajax({
+        		url:"demo1.do",//请求的url
+           		type:"post",//请求方式
+           		/*如果有需要提交的数据
+           		data{
+           			
+           		}
+           		*/
+           		dataType:"json",//服务器处理完返回数据的类型
+           		success:function(data){//成功回调函数，data就是返回的json数据
+           			var msg = "";
+           			msg += "<tr>"+"<th>"+"序号"+"</th>"+"<th>"+"用户名"+"</th>"+"<th>"+"邮箱" + "</th>"+"</tr>";
+    				for ( var i = 0; i < data.length; i++) {//循环json对象，拼接tr,td的html
+    					msg += "<tr>";
+    					msg += "<td>" + data[i].id + "</td>";
+    					msg += "<td>" + data[i].name+ "</td>";
+    					msg += "<td>" + data[i].email + "</td>";
+    					msg += "</tr>";
+    				}
+    				$("#tr").html(msg);//通过jquery方式获取table，并把tr,td的html输出到table中
+           		},
+           		error:function(){//失败回调函数，提示请求失败
+           			alert("数据加载错误");
+           		}
+           	});
+        });
+    </script>
+</body>
+</html>
